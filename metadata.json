@@ -1,0 +1,8 @@
+{
+  "name": "TripPack - Equipment & Packing Checklist",
+  "description": "Android-style trip equipment manager with item management, PDF packing list export, card donation support, and mobile authentication by byhrsn.com.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
