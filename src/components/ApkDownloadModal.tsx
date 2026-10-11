@@ -104,14 +104,21 @@ export const ApkDownloadModal: React.FC<ApkDownloadModalProps> = ({
                 ۲
               </span>
               <h4 className="text-sm font-bold text-white">
-                تولید و دانلود فایل مستقل APK (PWABuilder / TWA)
+                تولید و دانلود فایل مستقل APK با PWABuilder
               </h4>
             </div>
           </div>
 
-          <p className="text-xs text-slate-300 leading-relaxed">
-            اگر به فایل خام با فرمت <code>TripPack.apk</code> برای ارسال در تلگرام، واتساپ یا نصب دستی نیاز دارید، روی دکمه زیر کلیک کنید تا توسط سرویس رسمی PWABuilder پکیج APK با امضای دیجیتال ساخته و دانلود شود:
-          </p>
+          <div className="bg-amber-500/10 border border-amber-500/20 rounded-xl p-3 text-[11px] text-amber-300 leading-relaxed space-y-1">
+            <strong>نکته مهم در مورد خطای ۴۰۴ در PWABuilder:</strong>
+            <p>
+              لینک‌های پیش‌نمایش کلودران به دلیل قرار داشتن در محیط امن و خصوصی، توسط ربات‌های خارجی اسکنر مانند PWABuilder قابل دسترسی مستقیم نیستند و خطای 404 می‌دهند. برای رفع این مورد:
+            </p>
+            <ul className="list-disc list-inside space-y-0.5 pr-1 text-slate-300">
+              <li>برای استفاده فوری، از <strong>روش شماره ۱ (نصب مستقیم در کروم گوشی)</strong> استفاده فرمایید.</li>
+              <li>یا پس از قرار دادن پروژه روی دامنه اختصاصی خود (مثل byhrsn.com)، لینک دامنه خود را در PWABuilder وارد نمایید.</li>
+            </ul>
+          </div>
 
           <a
             href={pwabuilderUrl}
