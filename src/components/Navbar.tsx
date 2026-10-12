@@ -19,7 +19,6 @@ interface NavbarProps {
   onOpenAddModal: () => void;
   onOpenTripModal: () => void;
   onOpenAuthModal: () => void;
-  onOpenApkModal: () => void;
   activeTrip: Trip;
   user: UserProfile;
 }
@@ -30,7 +29,6 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenAddModal,
   onOpenTripModal,
   onOpenAuthModal,
-  onOpenApkModal,
   activeTrip,
   user,
 }) => {
@@ -65,16 +63,6 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Right side controls */}
         <div className="flex items-center gap-1.5 shrink-0">
-          {/* APK Install Button */}
-          <button
-            onClick={onOpenApkModal}
-            className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 text-[11px] font-bold border border-emerald-500/30 transition cursor-pointer"
-            title="نصب و دریافت APK اندروید"
-          >
-            <Download className="w-3.5 h-3.5 text-emerald-400" />
-            <span>APK</span>
-          </button>
-
           {/* Language Switcher */}
           <button
             onClick={toggleLanguage}

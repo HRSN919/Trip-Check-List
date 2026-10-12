@@ -4,10 +4,9 @@ import { useLanguage } from '../context/LanguageContext';
 
 interface DeveloperBadgeProps {
   onOpenDonate: () => void;
-  onOpenApk: () => void;
 }
 
-export const DeveloperBadge: React.FC<DeveloperBadgeProps> = ({ onOpenDonate, onOpenApk }) => {
+export const DeveloperBadge: React.FC<DeveloperBadgeProps> = ({ onOpenDonate }) => {
   const { t } = useLanguage();
 
   return (
@@ -30,13 +29,6 @@ export const DeveloperBadge: React.FC<DeveloperBadgeProps> = ({ onOpenDonate, on
       </p>
 
       <div className="pt-1 flex items-center justify-center gap-3 text-xs">
-        <button
-          onClick={onOpenApk}
-          className="inline-flex items-center gap-1 text-emerald-400 hover:text-emerald-300 font-semibold cursor-pointer"
-        >
-          <span>دریافت و نصب APK</span>
-        </button>
-        <span className="text-slate-600">·</span>
         <button
           onClick={onOpenDonate}
           className="inline-flex items-center gap-1.5 text-amber-400 hover:text-amber-300 font-semibold cursor-pointer"

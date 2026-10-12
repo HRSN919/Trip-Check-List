@@ -13,9 +13,9 @@ import { TripSelector } from './components/TripSelector';
 import { AuthModal } from './components/AuthModal';
 import { CardDonationModal } from './components/CardDonationModal';
 import { PdfExportModal } from './components/PdfExportModal';
-import { ApkDownloadModal } from './components/ApkDownloadModal';
 import { PWAInstallBanner } from './components/PWAInstallBanner';
 import { DeveloperBadge } from './components/DeveloperBadge';
+import { LoginScreen } from './components/LoginScreen';
 import { INITIAL_TRIPS, QUICK_ADD_SUGGESTIONS } from './data/initialData';
 import { Trip, TripItem, UserProfile } from './types';
 import heroImage from './assets/images/hero_trip_backpack_1791755845856.jpg';
@@ -41,21 +41,24 @@ function MainApp() {
     return savedId && trips.some((t) => t.id === savedId) ? savedId : trips[0]?.id || 'trip-1';
   });
 
-  // User Profile (Mobile Login)
+  // User Profile (First screen login - checks localStorage)
   const [user, setUser] = useState<UserProfile>(() => {
     const savedUser = localStorage.getItem('trippack_user');
     if (savedUser) {
       try {
-        return JSON.parse(savedUser);
+        const parsed = JSON.parse(savedUser);
+        if (parsed.isLoggedIn && parsed.displayName && parsed.phoneNumber) {
+          return parsed;
+        }
       } catch {
         // default guest
       }
     }
     return {
-      phoneNumber: '09123456789',
-      displayName: 'حسن (مسافر کوهستان)',
-      isLoggedIn: true,
-      joinDate: '۱۴۰۳/۰۸/۰۱',
+      phoneNumber: '',
+      displayName: '',
+      isLoggedIn: false,
+      joinDate: '',
     };
   });
 
@@ -68,7 +71,6 @@ function MainApp() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
   const [isDonateModalOpen, setIsDonateModalOpen] = useState(false);
-  const [isApkModalOpen, setIsApkModalOpen] = useState(false);
 
   // Undo Toast state
   const [deletedItemUndo, setDeletedItemUndo] = useState<{
@@ -276,127 +278,126 @@ function MainApp() {
 
   return (
     <AndroidFrame>
-      {/* PWA Install Banner */}
-      <PWAInstallBanner />
+      {!user.isLoggedIn ? (
+        <LoginScreen onLogin={(newUser) => setUser(newUser)} />
+      ) : (
+        <>
+          {/* PWA Install Banner */}
+          <PWAInstallBanner />
 
-      {/* Android Top App Bar */}
-      <Navbar
-        activeTab={activeTab}
-        onChangeTab={handleTabChange}
-        onOpenAddModal={() => setIsAddModalOpen(true)}
-        onOpenTripModal={() => setIsTripModalOpen(true)}
-        onOpenAuthModal={() => setIsAuthModalOpen(true)}
-        onOpenApkModal={() => setIsApkModalOpen(true)}
-        activeTrip={activeTrip}
-        user={user}
-      />
+          {/* Android Top App Bar */}
+          <Navbar
+            activeTab={activeTab}
+            onChangeTab={handleTabChange}
+            onOpenAddModal={() => setIsAddModalOpen(true)}
+            onOpenTripModal={() => setIsTripModalOpen(true)}
+            onOpenAuthModal={() => setIsAuthModalOpen(true)}
+            activeTrip={activeTrip}
+            user={user}
+          />
 
-      {/* Hero Visual Header Banner */}
-      <div className="relative h-32 md:h-36 w-full shrink-0 overflow-hidden no-print">
-        <img
-          src={heroImage}
-          alt="Trip Equipment"
-          className="w-full h-full object-cover object-center filter brightness-75 contrast-105"
-          referrerPolicy="no-referrer"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/50 to-transparent flex flex-col justify-end p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-wider block">
-                {t.appName}
-              </span>
-              <h2 className="text-sm md:text-base font-extrabold text-white truncate max-w-[260px] md:max-w-md">
-                {activeTrip.title}
-              </h2>
+          {/* Hero Visual Header Banner */}
+          <div className="relative h-32 md:h-36 w-full shrink-0 overflow-hidden no-print">
+            <img
+              src={heroImage}
+              alt="Trip Equipment"
+              className="w-full h-full object-cover object-center filter brightness-75 contrast-105"
+              referrerPolicy="no-referrer"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/50 to-transparent flex flex-col justify-end p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-wider block">
+                    {t.appName}
+                  </span>
+                  <h2 className="text-sm md:text-base font-extrabold text-white truncate max-w-[260px] md:max-w-md">
+                    {activeTrip.title}
+                  </h2>
+                </div>
+                <span className="text-[11px] text-slate-300 font-medium bg-slate-950/60 backdrop-blur-md px-2.5 py-1 rounded-xl border border-slate-700/60">
+                  {formatNumber(activeTrip.items.length)} قلم وسیله
+                </span>
+              </div>
             </div>
-            <span className="text-[11px] text-slate-300 font-medium bg-slate-950/60 backdrop-blur-md px-2.5 py-1 rounded-xl border border-slate-700/60">
-              {formatNumber(activeTrip.items.length)} قلم وسیله
-            </span>
           </div>
-        </div>
-      </div>
 
-      {/* MAIN EQUIPMENT LIST VIEW */}
-      <main className="flex-1 flex flex-col">
-        <EquipmentList
-          items={activeTrip.items}
-          onTogglePacked={handleTogglePacked}
-          onRemoveItem={handleRemoveItem}
-          onUpdateQuantity={handleUpdateQuantity}
-          onQuickAddItem={handleQuickAddItem}
-          onOpenAddModal={() => setIsAddModalOpen(true)}
-          onMarkAllPacked={handleMarkAllPacked}
-          onResetStatus={handleResetStatus}
-          onRemoveCompleted={handleRemoveCompleted}
-        />
+          {/* MAIN EQUIPMENT LIST VIEW */}
+          <main className="flex-1 flex flex-col">
+            <EquipmentList
+              items={activeTrip.items}
+              onTogglePacked={handleTogglePacked}
+              onRemoveItem={handleRemoveItem}
+              onUpdateQuantity={handleUpdateQuantity}
+              onQuickAddItem={handleQuickAddItem}
+              onOpenAddModal={() => setIsAddModalOpen(true)}
+              onMarkAllPacked={handleMarkAllPacked}
+              onResetStatus={handleResetStatus}
+              onRemoveCompleted={handleRemoveCompleted}
+            />
 
-        {/* Developer Credit and byhrsn.com Badge */}
-        <DeveloperBadge
-          onOpenDonate={() => setIsDonateModalOpen(true)}
-          onOpenApk={() => setIsApkModalOpen(true)}
-        />
-      </main>
+            {/* Developer Credit and byhrsn.com Badge */}
+            <DeveloperBadge
+              onOpenDonate={() => setIsDonateModalOpen(true)}
+            />
+          </main>
 
-      {/* Undo Item Removed Floating Toast */}
-      {deletedItemUndo && (
-        <div className="no-print fixed bottom-20 left-4 right-4 max-w-sm mx-auto z-50 bg-slate-800 border border-slate-700 text-slate-100 rounded-2xl p-3 shadow-2xl flex items-center justify-between text-xs animate-slide-up">
-          <span className="truncate">
-            «{deletedItemUndo.item.name}» {t.itemRemoved}
-          </span>
-          <button
-            onClick={handleUndoRemove}
-            className="text-emerald-400 font-bold hover:underline px-2 py-1 shrink-0 cursor-pointer"
-          >
-            {t.undo}
-          </button>
-        </div>
+          {/* Undo Item Removed Floating Toast */}
+          {deletedItemUndo && (
+            <div className="no-print fixed bottom-20 left-4 right-4 max-w-sm mx-auto z-50 bg-slate-800 border border-slate-700 text-slate-100 rounded-2xl p-3 shadow-2xl flex items-center justify-between text-xs animate-slide-up">
+              <span className="truncate">
+                «{deletedItemUndo.item.name}» {t.itemRemoved}
+              </span>
+              <button
+                onClick={handleUndoRemove}
+                className="text-emerald-400 font-bold hover:underline px-2 py-1 shrink-0 cursor-pointer"
+              >
+                {t.undo}
+              </button>
+            </div>
+          )}
+
+          {/* MODALS */}
+          <AddItemModal
+            isOpen={isAddModalOpen}
+            onClose={() => setIsAddModalOpen(false)}
+            onAddItem={handleAddItem}
+          />
+
+          <TripSelector
+            trips={trips}
+            activeTripId={activeTripId}
+            onSelectTrip={(id) => setActiveTripId(id)}
+            onCreateTrip={handleCreateTrip}
+            isOpen={isTripModalOpen}
+            onClose={() => setIsTripModalOpen(false)}
+          />
+
+          <AuthModal
+            user={user}
+            onUpdateUser={(updated) => setUser(updated)}
+            isOpen={isAuthModalOpen}
+            onClose={() => setIsAuthModalOpen(false)}
+          />
+
+          <CardDonationModal
+            isOpen={isDonateModalOpen}
+            onClose={() => {
+              setIsDonateModalOpen(false);
+              setActiveTab('equipment');
+            }}
+          />
+
+          <PdfExportModal
+            trip={activeTrip}
+            user={user}
+            isOpen={isPdfModalOpen}
+            onClose={() => {
+              setIsPdfModalOpen(false);
+              setActiveTab('equipment');
+            }}
+          />
+        </>
       )}
-
-      {/* MODALS */}
-      <AddItemModal
-        isOpen={isAddModalOpen}
-        onClose={() => setIsAddModalOpen(false)}
-        onAddItem={handleAddItem}
-      />
-
-      <TripSelector
-        trips={trips}
-        activeTripId={activeTripId}
-        onSelectTrip={(id) => setActiveTripId(id)}
-        onCreateTrip={handleCreateTrip}
-        isOpen={isTripModalOpen}
-        onClose={() => setIsTripModalOpen(false)}
-      />
-
-      <AuthModal
-        user={user}
-        onUpdateUser={(updated) => setUser(updated)}
-        isOpen={isAuthModalOpen}
-        onClose={() => setIsAuthModalOpen(false)}
-      />
-
-      <CardDonationModal
-        isOpen={isDonateModalOpen}
-        onClose={() => {
-          setIsDonateModalOpen(false);
-          setActiveTab('equipment');
-        }}
-      />
-
-      <PdfExportModal
-        trip={activeTrip}
-        user={user}
-        isOpen={isPdfModalOpen}
-        onClose={() => {
-          setIsPdfModalOpen(false);
-          setActiveTab('equipment');
-        }}
-      />
-
-      <ApkDownloadModal
-        isOpen={isApkModalOpen}
-        onClose={() => setIsApkModalOpen(false)}
-      />
     </AndroidFrame>
   );
 }
