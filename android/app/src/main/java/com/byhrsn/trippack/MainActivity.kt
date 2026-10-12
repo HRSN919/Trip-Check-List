@@ -10,13 +10,20 @@ import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.activity.ComponentActivity
+import androidx.webkit.WebViewAssetLoader
 
 class MainActivity : ComponentActivity() {
     private lateinit var webView: WebView
+    private lateinit var assetLoader: WebViewAssetLoader
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        assetLoader = WebViewAssetLoader.Builder()
+            .addPathHandler("/assets/", WebViewAssetLoader.AssetsPathHandler(this))
+            .build()
+
         webView = WebView(this)
         setContentView(webView)
 
@@ -24,30 +31,38 @@ class MainActivity : ComponentActivity() {
         settings.javaScriptEnabled = true
         settings.domStorageEnabled = true
         settings.databaseEnabled = true
-        settings.allowFileAccess = true
+        settings.allowFileAccess = false
         settings.allowContentAccess = true
         settings.cacheMode = WebSettings.LOAD_DEFAULT
 
         webView.webChromeClient = WebChromeClient()
         webView.webViewClient = object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
-                val url = request?.url?.toString() ?: ""
-                // Open external links (like byhrsn.com) in system browser
-                if (url.startsWith("http://") || url.startsWith("https://")) {
-                    try {
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                        startActivity(intent)
-                        return true
-                    } catch (e: Exception) {
-                        return false
+            override fun shouldInterceptRequest(
+                view: WebView?,
+                request: WebResourceRequest
+            ) = assetLoader.shouldInterceptRequest(request.url)
+
+            override fun shouldOverrideUrlLoading(
+                view: WebView?,
+                request: WebResourceRequest?
+            ): Boolean {
+                val uri = request?.url ?: return false
+                if (uri.host == "appassets.androidplatform.net") return false
+
+                if (uri.scheme == "http" || uri.scheme == "https") {
+                    return try {
+                        startActivity(Intent(Intent.ACTION_VIEW, uri))
+                        true
+                    } catch (_: Exception) {
+                        false
                     }
                 }
                 return false
             }
         }
 
-        // Load the bundled offline web app directly from local assets (never throws 404!)
-        webView.loadUrl("file:///android_asset/index.html")
+        // Serve the bundled app from a secure virtual HTTPS origin so ES modules load correctly.
+        webView.loadUrl("https://appassets.androidplatform.net/assets/index.html")
     }
 
     @Deprecated("Deprecated in Java")
