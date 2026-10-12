@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="128" fill="#0f172a"/>
+  <rect x="24" y="24" width="464" height="464" rx="104" fill="none" stroke="url(#grad)" stroke-width="8" opacity="0.3"/>
+  <g transform="translate(106, 106) scale(0.585)">
+    <!-- Backpack body -->
+    <path d="M120 180 C120 110, 180 80, 256 80 C332 80, 392 110, 392 180 L400 420 C400 440, 384 456, 364 456 L148 456 C128 456, 112 440, 112 420 Z" fill="url(#grad)" />
+    <!-- Front pocket -->
+    <rect x="160" y="280" width="192" height="136" rx="20" fill="#0f172a" opacity="0.85"/>
+    <line x1="160" y1="330" x2="352" y2="330" stroke="#10b981" stroke-width="8" stroke-linecap="round"/>
+    <!-- Top handle -->
+    <path d="M210 80 C210 50, 302 50, 302 80" fill="none" stroke="#38bdf8" stroke-width="16" stroke-linecap="round"/>
+    <!-- Straps & buckles -->
+    <rect x="180" y="160" width="24" height="90" rx="12" fill="#0f172a" opacity="0.6"/>
+    <rect x="308" y="160" width="24" height="90" rx="12" fill="#0f172a" opacity="0.6"/>
+    <circle cx="256" cy="210" r="14" fill="#38bdf8"/>
+  </g>
+</svg>

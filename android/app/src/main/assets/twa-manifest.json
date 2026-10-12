@@ -1,0 +1,19 @@
+{
+  "packageId": "com.byhrsn.trippack",
+  "host": "ais-pre-c2nqhu4mgcxklloxq6tkr4-499987894803.europe-west2.run.app",
+  "name": "TripPack - Equipment & Packing Checklist",
+  "launcherName": "TripPack",
+  "themeColor": "#0F172A",
+  "navigationColor": "#0F172A",
+  "backgroundColor": "#0F172A",
+  "enableNotifications": true,
+  "startUrl": "/",
+  "iconUrl": "/pwa-512x512.png",
+  "maskableIconUrl": "/pwa-512x512.png",
+  "appVersionName": "1.0.0",
+  "appVersionCode": 1,
+  "signing": {
+    "scheme": "v2"
+  },
+  "generator": "Bubblewrap / byhrsn.com"
+}

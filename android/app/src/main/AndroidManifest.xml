@@ -27,7 +27,8 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
                     android:scheme="https"
-                    android:host="ais-pre-c2nqhu4mgcxklloxq6tkr4-499987894803.europe-west2.run.app" />
+                    android:host="byhrsn.com"
+                    android:pathPrefix="/trippack-equipment" />
             </intent-filter>
         </activity>
     </application>
