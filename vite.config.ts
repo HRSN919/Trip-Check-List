@@ -6,20 +6,21 @@ import {VitePWA} from 'vite-plugin-pwa';
 
 export default defineConfig(() => {
   return {
+    base: './',
     plugins: [
       react(),
       tailwindcss(),
       VitePWA({
         registerType: 'autoUpdate',
         manifest: {
-          id: '/',
+          id: './',
           name: 'TripPack - Equipment & Packing Checklist',
           short_name: 'TripPack',
           description: 'Android-style trip equipment manager and smart packing checklist organizer with PDF printing, mobile login, and card donation support by byhrsn.com.',
           lang: 'fa',
           dir: 'rtl',
-          start_url: '/',
-          scope: '/',
+          start_url: './',
+          scope: './',
           display: 'standalone',
           orientation: 'portrait-primary',
           theme_color: '#0f172a',
@@ -27,19 +28,19 @@ export default defineConfig(() => {
           categories: ['travel', 'utilities', 'productivity'],
           icons: [
             {
-              src: '/pwa-192x192.png',
+              src: './pwa-192x192.png',
               sizes: '192x192',
               type: 'image/png',
               purpose: 'any',
             },
             {
-              src: '/pwa-512x512.png',
+              src: './pwa-512x512.png',
               sizes: '512x512',
               type: 'image/png',
               purpose: 'any',
             },
             {
-              src: '/pwa-512x512.png',
+              src: './pwa-512x512.png',
               sizes: '512x512',
               type: 'image/png',
               purpose: 'maskable',
