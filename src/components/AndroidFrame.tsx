@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Wifi, BatteryMedium, Smartphone, Monitor } from 'lucide-react';
+import React, { useState } from 'react';
+import { Smartphone, Monitor } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
 interface AndroidFrameProps {
@@ -7,21 +7,8 @@ interface AndroidFrameProps {
 }
 
 export const AndroidFrame: React.FC<AndroidFrameProps> = ({ children }) => {
-  const { t, formatNumber } = useLanguage();
-  const [currentTime, setCurrentTime] = useState('');
+  const { t } = useLanguage();
   const [isPhoneFrame, setIsPhoneFrame] = useState(true);
-
-  useEffect(() => {
-    const updateClock = () => {
-      const now = new Date();
-      const hours = String(now.getHours()).padStart(2, '0');
-      const minutes = String(now.getMinutes()).padStart(2, '0');
-      setCurrentTime(`${hours}:${minutes}`);
-    };
-    updateClock();
-    const interval = setInterval(updateClock, 30000);
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col items-center justify-start p-0 md:py-6 md:px-4">
@@ -74,34 +61,6 @@ export const AndroidFrame: React.FC<AndroidFrameProps> = ({ children }) => {
             : 'max-w-4xl min-h-screen md:min-h-[90vh] rounded-none md:rounded-3xl shadow-xl border-0 md:border border-slate-800 flex flex-col relative overflow-hidden bg-slate-900'
         }`}
       >
-        {/* Android Punch Hole Camera (only in phone frame on md+) */}
-        {isPhoneFrame && (
-          <div className="no-print absolute top-2.5 left-1/2 -translate-x-1/2 z-50 hidden md:block">
-            <div className="w-3.5 h-3.5 bg-slate-950 rounded-full border border-slate-800 ring-1 ring-slate-900/80"></div>
-          </div>
-        )}
-
-        {/* Android Status Bar */}
-        <header
-          className="no-print w-full h-8 px-5 flex items-center justify-between text-xs font-medium text-slate-300 bg-slate-900/95 border-b border-slate-800/40 select-none shrink-0 z-40"
-          dir="ltr"
-        >
-          <div className="flex items-center gap-1.5">
-            <span className="font-semibold tracking-tight text-[11px] text-slate-200">
-              {currentTime ? formatNumber(currentTime) : '12:00'}
-            </span>
-          </div>
-
-          <div className="flex items-center gap-2 text-slate-400">
-            <span className="text-[10px] font-bold text-slate-300">5G</span>
-            <Wifi className="w-3.5 h-3.5 text-slate-300" />
-            <div className="flex items-center gap-1">
-              <span className="text-[10px] font-mono text-slate-400">92%</span>
-              <BatteryMedium className="w-4 h-4 text-emerald-400" />
-            </div>
-          </div>
-        </header>
-
         {/* Scrollable Screen Content */}
         <div className="flex-1 overflow-y-auto overflow-x-hidden flex flex-col relative">
           {children}

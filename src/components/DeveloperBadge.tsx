@@ -34,7 +34,7 @@ export const DeveloperBadge: React.FC<DeveloperBadgeProps> = ({ onOpenDonate }) 
           className="inline-flex items-center gap-1.5 text-amber-400 hover:text-amber-300 font-semibold cursor-pointer"
         >
           <Heart className="w-3.5 h-3.5 fill-amber-400/20" />
-          <span>حمایت مالی به شماره کارت</span>
+          <span>حمایت و ارتباط با ما</span>
         </button>
         <span className="text-slate-600">·</span>
         <a

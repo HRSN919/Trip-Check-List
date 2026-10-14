@@ -77,6 +77,7 @@ function MainApp() {
     item: TripItem;
     tripId: string;
   } | null>(null);
+  const [deletedTripToast, setDeletedTripToast] = useState<string | null>(null);
 
   // Save to localStorage
   useEffect(() => {
@@ -263,6 +264,37 @@ function MainApp() {
     setActiveTripId(newId);
   };
 
+  const handleDeleteTrip = (tripId: string) => {
+    const tripToDelete = trips.find((t) => t.id === tripId);
+    const tripTitle = tripToDelete ? tripToDelete.title : '';
+
+    const remaining = trips.filter((t) => t.id !== tripId);
+    if (remaining.length === 0) {
+      const newDefaultTrip: Trip = {
+        id: 'trip-' + Date.now(),
+        title: 'سفر جدید',
+        destination: 'مقصد جدید',
+        startDate: new Date().toLocaleDateString(isRtl ? 'fa-IR' : 'en-US'),
+        endDate: '',
+        tripType: 'camping',
+        notes: '',
+        items: [],
+      };
+      setTrips([newDefaultTrip]);
+      setActiveTripId(newDefaultTrip.id);
+    } else {
+      setTrips(remaining);
+      if (activeTripId === tripId) {
+        setActiveTripId(remaining[0].id);
+      }
+    }
+
+    if (tripTitle) {
+      setDeletedTripToast(`سفر «${tripTitle}» با موفقیت حذف شد`);
+      setTimeout(() => setDeletedTripToast(null), 3500);
+    }
+  };
+
   const handleTabChange = (tab: 'equipment' | 'trips' | 'pdf' | 'donate' | 'profile') => {
     setActiveTab(tab);
     if (tab === 'pdf') {
@@ -356,6 +388,21 @@ function MainApp() {
             </div>
           )}
 
+          {/* Deleted Trip Floating Toast */}
+          {deletedTripToast && (
+            <div className="no-print fixed bottom-20 left-4 right-4 max-w-sm mx-auto z-50 bg-slate-800 border border-slate-700 text-slate-100 rounded-2xl p-3 shadow-2xl flex items-center justify-between text-xs animate-slide-up">
+              <span className="truncate text-rose-300 font-semibold">
+                {deletedTripToast}
+              </span>
+              <button
+                onClick={() => setDeletedTripToast(null)}
+                className="text-slate-400 hover:text-white px-2 py-1 text-xs cursor-pointer"
+              >
+                ✕
+              </button>
+            </div>
+          )}
+
           {/* MODALS */}
           <AddItemModal
             isOpen={isAddModalOpen}
@@ -368,6 +415,7 @@ function MainApp() {
             activeTripId={activeTripId}
             onSelectTrip={(id) => setActiveTripId(id)}
             onCreateTrip={handleCreateTrip}
+            onDeleteTrip={handleDeleteTrip}
             isOpen={isTripModalOpen}
             onClose={() => setIsTripModalOpen(false)}
           />

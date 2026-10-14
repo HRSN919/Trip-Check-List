@@ -43,13 +43,11 @@ export interface UserProfile {
   joinDate: string;
 }
 
-export interface DonationCardDetails {
-  cardNumber: string;
-  cardHolder: string;
-  bankName: string;
-  shabaNumber: string;
+export interface DeveloperSupportDetails {
   developerWebsite: string;
+  developerDomain: string;
   developerName: string;
+  contactEmail: string;
 }
 
 export interface DonationRecord {

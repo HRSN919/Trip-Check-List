@@ -4,7 +4,7 @@ import {
   Compass,
   Plus,
   Printer,
-  CreditCard,
+  Heart,
   User,
   Globe,
   Download,
@@ -150,14 +150,14 @@ export const Navbar: React.FC<NavbarProps> = ({
             <span className="text-[10px] mt-1">{t.tabPdf}</span>
           </button>
 
-          {/* Tab 5: Donate Card */}
+          {/* Tab 5: Donate & Support */}
           <button
             onClick={() => onChangeTab('donate')}
             className={`flex flex-col items-center justify-center min-h-[44px] min-w-[44px] rounded-xl transition cursor-pointer ${
-              activeTab === 'donate' ? 'text-emerald-400 font-bold' : 'text-slate-400 hover:text-slate-200'
+              activeTab === 'donate' ? 'text-amber-400 font-bold' : 'text-slate-400 hover:text-slate-200'
             }`}
           >
-            <CreditCard className="w-5 h-5" />
+            <Heart className="w-5 h-5" />
             <span className="text-[10px] mt-1">{t.tabDonate}</span>
           </button>
         </div>

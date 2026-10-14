@@ -107,6 +107,15 @@ interface Translations {
   fullScreenMode: string;
   installPwa: string;
   pwaInstalled: string;
+  // Trip management & deletion
+  tripsManagement: string;
+  tripsSubtitle: string;
+  deleteTrip: string;
+  confirmDeleteTripTitle: string;
+  confirmDeleteTripPrompt: string;
+  confirmDeleteTripWarning: string;
+  confirmDeleteTripBtn: string;
+  tripDeletedSuccess: string;
 }
 
 const translationsFa: Translations = {
@@ -177,9 +186,9 @@ const translationsFa: Translations = {
   pdfGeneratedOn: 'تاریخ صدور چک‌لیست',
   pdfStatusPacked: 'آماده شده [✓]',
   pdfStatusPending: 'نیاز به بررسی [ ]',
-  // Donation
-  donateTitle: 'حمایت مالی به شماره کارت',
-  donateSubtitle: 'پشتیبانی از توسعه‌دهنده برنامه (سایت: byhrsn.com)',
+  // Donation & Contact
+  donateTitle: 'حمایت مالی و ارتباط با ما',
+  donateSubtitle: 'ارتباط مستقیم با وب‌سایت سازنده (byhrsn.com)',
   cardNumberLabel: 'شماره کارت بانکی (شتاب)',
   cardHolderLabel: 'نام دارنده کارت',
   bankNameLabel: 'بانک صادرکننده',
@@ -214,6 +223,15 @@ const translationsFa: Translations = {
   fullScreenMode: 'نمای تمام صفحه',
   installPwa: 'نصب نسخه اندروید (PWA)',
   pwaInstalled: 'اپلیکیشن نصب شده است',
+  // Trip management & deletion
+  tripsManagement: 'مدیریت سفرهای من',
+  tripsSubtitle: 'انتخاب سفر جاری یا ایجاد سفر جدید',
+  deleteTrip: 'حذف سفر',
+  confirmDeleteTripTitle: 'تایید حذف سفر',
+  confirmDeleteTripPrompt: 'آیا از حذف این سفر مطمئن هستید؟',
+  confirmDeleteTripWarning: 'با حذف سفر، تمامی اقلام و چک‌لیست مربوط به آن به طور کامل پاک خواهند شد و این عملیات قابل بازگشت نیست.',
+  confirmDeleteTripBtn: 'بله، حذف سفر',
+  tripDeletedSuccess: 'سفر با موفقیت حذف شد',
 };
 
 const translationsEn: Translations = {
@@ -321,6 +339,15 @@ const translationsEn: Translations = {
   fullScreenMode: 'Full Screen View',
   installPwa: 'Install Android App (PWA)',
   pwaInstalled: 'App is Installed',
+  // Trip management & deletion
+  tripsManagement: 'My Trips Management',
+  tripsSubtitle: 'Select active trip or create a new trip',
+  deleteTrip: 'Delete Trip',
+  confirmDeleteTripTitle: 'Confirm Delete Trip',
+  confirmDeleteTripPrompt: 'Are you sure you want to delete this trip?',
+  confirmDeleteTripWarning: 'All items and checklist gear for this trip will be permanently removed. This action cannot be undone.',
+  confirmDeleteTripBtn: 'Yes, Delete Trip',
+  tripDeletedSuccess: 'Trip was deleted successfully',
 };
 
 interface LanguageContextType {

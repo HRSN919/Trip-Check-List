@@ -281,13 +281,10 @@ export const INITIAL_TRIPS: Trip[] = [
   },
 ];
 
-// Developer donation card details featuring byhrsn.com
+// Developer contact and support details featuring byhrsn.com
 export const DEVELOPER_DONATION_CARD = {
-  cardNumber: '6280-2311-1012-6280',
-  cardHolder: '',
-  bankName: 'بانک رسالت / شبکه شتاب',
-  shabaNumber: 'IR620700001000231110126280',
   developerWebsite: 'https://byhrsn.com',
   developerDomain: 'byhrsn.com',
   developerName: 'byhrsn.com',
+  contactEmail: 'h.sotoudeh@gmail.com',
 };
